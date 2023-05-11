@@ -5,6 +5,7 @@ from base.models import BaseModel
 
 # Create your models here.
 
+
 class Cargo(BaseModel):
 
     nombre_cargo = models.CharField(
@@ -16,6 +17,7 @@ class Cargo(BaseModel):
 
     def __str__(self):
         return self.nombre_cargo
+
 
 class Departamento(BaseModel):
 
@@ -29,41 +31,69 @@ class Departamento(BaseModel):
     def __str__(self):
         return self.nombre_departamento
 
-class Persona(BaseModel):
-    opciones = [(True, 'Sí'),(False, 'No'),]
-    regex_validator = RegexValidator(regex=r'^\d{8}-\d{1}$',message="Ingrese un número con el formato válido (xxxxxxxx-x).")
-    ESTADO_CIVIL_CHOICES = [('soltero', 'Soltero/a'),('casado', 'Casado/a'),('divorciado', 'Divorciado/a'),('viudo', 'Viudo/a'),]
 
-    nombres = models.CharField('Nombres', max_length=100, blank=False )
-    apellidos = models.CharField('Apellidos', max_length=100, blank=False )
-    fecha_nacimiento = models.DateField('Fecha de Nacimiento', auto_now=False, auto_now_add=False, blank=False )
-    direccion = models.TextField('Direccion', max_length=400, blank=False )
-    telefono = models.CharField("Numero de contacto",max_length=11, validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$',message="Ingrese un número de teléfono válido.")])
-    documento_identidad = models.CharField('Documento de Identidad',max_length=9, blank=False , unique=True)
-    flag_discapacidad = models.BooleanField('Posee una discapacidad?',choices=opciones, default=False,blank=False)
-    documento_identidad = models.CharField("Documento de Indentidad",max_length=10,validators=[regex_validator])
-    correo = models.EmailField("Correo",max_length=254)
-    estado_civil = models.CharField("Estado Civil",max_length=20, choices=ESTADO_CIVIL_CHOICES,blank=False)
-    no_isss = models.CharField("No ISSS",max_length=9,validators=[RegexValidator(regex=r'^\d+$',message="Ingrese solo números.")])
-    no_afp = models.CharField("No AFP",max_length=12,validators=[RegexValidator(regex=r'^\d+$',message="Ingrese solo números.")])
+class Persona(BaseModel):
+    opciones = [(True, 'Sí'), (False, 'No'), ]
+    regex_validator = RegexValidator(
+        regex=r'^\d{8}-\d{1}$', message="Ingrese un número con el formato válido (xxxxxxxx-x).")
+    ESTADO_CIVIL_CHOICES = [('soltero', 'Soltero/a'), ('casado', 'Casado/a'),
+                            ('divorciado', 'Divorciado/a'), ('viudo', 'Viudo/a'), ]
+    tipos_genero = (('M', 'Masculino'), ('F', 'Femenino'),)
+
+    nombres = models.CharField('Nombres', max_length=100, blank=False)
+    apellidos = models.CharField('Apellidos', max_length=100, blank=False)
+    fecha_nacimiento = models.DateField(
+        'Fecha de Nacimiento', auto_now=False, auto_now_add=False, blank=False)
+    direccion = models.TextField('Direccion', max_length=400, blank=False)
+    telefono = models.CharField("Numero de contacto", max_length=11, validators=[RegexValidator(
+        regex=r'^\+?1?\d{9,15}$', message="Ingrese un número de teléfono válido.")])
+    sexo = models.CharField("Sexo", max_length=1,
+                            choices=tipos_genero, default='M')
+    flag_discapacidad = models.BooleanField(
+        'Posee una discapacidad?', choices=opciones, default=False, blank=False)
+    documento_identidad = models.CharField(
+        "Documento de Indentidad", max_length=10, validators=[regex_validator], unique=True)
+    correo = models.EmailField("Correo", max_length=254)
+    estado_civil = models.CharField(
+        "Estado Civil", max_length=20, choices=ESTADO_CIVIL_CHOICES, blank=False)
+    no_isss = models.CharField("No ISSS", max_length=9, validators=[
+                               RegexValidator(regex=r'^\d+$', message="Ingrese solo números.")])
+    no_afp = models.CharField("No AFP", max_length=12, validators=[
+                              RegexValidator(regex=r'^\d+$', message="Ingrese solo números.")])
 
     class Meta:
         verbose_name = ("Empleado")
         verbose_name_plural = ("Empleados")
 
     def __str__(self):
-        return self.nombres
+        return str(self.id) + " " + self.nombres + " " + self.apellidos  
+
 
 class Empleado(Persona):
+    contratos = (('Formal', 'Contrato Formal'),
+                 ('Servicios', 'Servicios Profesionales'),)
+    pago = (('Quincenal', 'Quincenal'), ('Mensual', 'Mensual'),)
+
     salario = models.DecimalField(max_digits=8, decimal_places=2)
     fecha_contratacion = models.DateField(
         'Fecha de Contratacion')
     cargo = models.ForeignKey(
-        'Cargo', verbose_name='Cargo', on_delete=models.CASCADE, blank=False )
+        'Cargo', verbose_name='Cargo', on_delete=models.CASCADE, blank=False)
     id_departamento = models.ForeignKey(
-        'Departamento', verbose_name='Departamento', on_delete=models.CASCADE, blank=False )
+        'Departamento', verbose_name='Departamento', on_delete=models.CASCADE, blank=False)
+    tipo_pago = models.CharField(
+        "Tipo de pago", max_length=10, choices=pago, default="Mensual")
+    tipo_contrato = models.CharField(
+        "Tipo de Contrato", max_length=10, choices=contratos, default="formal")
+
 
 class Incapacidad(BaseModel):
+    opciones = [(True, 'Sí'), (False, 'No'), ]
     id_empleado = models.ForeignKey(
-        'Empleado', verbose_name='Empleados', on_delete=models.CASCADE, blank=False )
-    
+        'Empleado', verbose_name='Empleados', on_delete=models.CASCADE, blank=False)
+    cantidad_dias = models.IntegerField("Cantidad de Dias", blank=False)
+    motivo = models.TextField('Motivo', max_length=200, blank=False)
+    fecha_inicio = models.DateField('Fecha de Inicio', blank=False)
+    fecha_final = models.DateField('Fecha de finalización', blank=False)
+    documentacion = models.BooleanField(
+        '¿Entrego documentación?', choices=opciones, default=False, blank=False)
