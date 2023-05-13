@@ -17,11 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from Usuario.views import Login, logout_view
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('usuario/', include(('Usuario.urls', 'usuario'))),
+    path('usuarios/', include(('Usuario.urls', 'Usuario'))),
     path('empleados/', include('Empleado.api.routers')),
-    path('descuentos/', include(('Empleado.urls','Empleado'))),
+    path('descuentos/', include(('Empleado.urls', 'Empleado'))),
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

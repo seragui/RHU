@@ -6,5 +6,6 @@ from Empleado.views import *
 
 urlpatterns = [
     # ... otras rutas de la aplicación ...
+    #
     path('empleados/<int:empleado_id>/', ver_empleado, name='ver_empleado'),
 ]
