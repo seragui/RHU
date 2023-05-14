@@ -96,4 +96,48 @@ class Incapacidad(BaseModel):
     fecha_inicio = models.DateField('Fecha de Inicio', blank=False)
     fecha_final = models.DateField('Fecha de finalización', blank=False)
     documentacion = models.BooleanField(
-        '¿Entrego documentación?', choices=opciones, default=False, blank=False)
+        '¿Entrego documentación?', choices=opciones, default=True, blank=False)
+
+    class Meta:
+        verbose_name = ("Incapacidad")
+        verbose_name_plural = ("Incapacidades")
+
+    def __str__(self):
+        return f'{self.id_empleado} {self.cantidad_dias}'
+    
+"""class Ausencia(BaseModel):
+    opciones = [(True, 'Sí'), (False, 'No'), ]
+    id_empleado = models.ForeignKey(
+        'Empleado', verbose_name='Empleados', on_delete=models.CASCADE, blank=False)
+    cantidad_dias = models.IntegerField("Cantidad de Dias", blank=False)
+    motivo = models.TextField('Motivo', max_length=200, blank=False)
+    fecha_inicio = models.DateField('Fecha de Inicio', blank=False)
+    fecha_final = models.DateField('Fecha de finalización', blank=False)
+    documentacion = models.BooleanField(
+        '¿Entrego documentación?', choices=opciones, default=False, blank=False)"""
+    
+
+#Descuentos
+class Retencion(models.Model):
+    frecuencia_pago_choices = [
+        ('Mensual', 'Mensual'),
+        ('Quincenal', 'Quincenal'),
+        ('Semanal', 'Semanal')
+    ]
+
+    desde = models.DecimalField(max_digits=10, decimal_places=2)
+    hasta = models.DecimalField(max_digits=10, decimal_places=2)
+    porcentaje = models.DecimalField(max_digits=5, decimal_places=2)
+    cuota_fija = models.DecimalField(max_digits=10, decimal_places=2)
+    frecuencia_pago = models.CharField(max_length=10, choices=frecuencia_pago_choices)
+
+    def __str__(self):
+        return f"Retención {self.frecuencia_pago}: {self.desde} - {self.hasta}"
+
+
+class TablaRetenciones(models.Model):
+    retenciones = models.ManyToManyField(Retencion)
+
+    def __str__(self):
+        return "Tabla de Retenciones"
+    
