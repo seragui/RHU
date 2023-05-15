@@ -72,7 +72,6 @@ class Persona(BaseModel):
 class Empleado(Persona):
     contratos = (('Formal', 'Contrato Formal'),
                  ('Servicios', 'Servicios Profesionales'),)
-    pago = (('Quincenal', 'Quincenal'), ('Mensual', 'Mensual'),)
 
     salario = models.DecimalField(max_digits=8, decimal_places=2)
     fecha_contratacion = models.DateField(
@@ -81,8 +80,6 @@ class Empleado(Persona):
         'Cargo', verbose_name='Cargo', on_delete=models.CASCADE, blank=False)
     id_departamento = models.ForeignKey(
         'Departamento', verbose_name='Departamento', on_delete=models.CASCADE, blank=False)
-    tipo_pago = models.CharField(
-        "Tipo de pago", max_length=10, choices=pago, default="Mensual")
     tipo_contrato = models.CharField(
         "Tipo de Contrato", max_length=10, choices=contratos, default="formal")
 
