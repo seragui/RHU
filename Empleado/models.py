@@ -49,8 +49,6 @@ class Persona(BaseModel):
         regex=r'^\+?1?\d{9,15}$', message="Ingrese un número de teléfono válido.")])
     sexo = models.CharField("Sexo", max_length=1,
                             choices=tipos_genero, default='M')
-    flag_discapacidad = models.BooleanField(
-        'Posee una discapacidad?', choices=opciones, default=False, blank=False)
     documento_identidad = models.CharField(
         "Documento de Indentidad", max_length=10, validators=[regex_validator], unique=True)
     correo = models.EmailField("Correo", max_length=254)
@@ -102,19 +100,41 @@ class Incapacidad(BaseModel):
     def __str__(self):
         return f'{self.id_empleado} {self.cantidad_dias}'
     
-"""class Ausencia(BaseModel):
+class Ausencia(BaseModel):
     opciones = [(True, 'Sí'), (False, 'No'), ]
     id_empleado = models.ForeignKey(
         'Empleado', verbose_name='Empleados', on_delete=models.CASCADE, blank=False)
     cantidad_dias = models.IntegerField("Cantidad de Dias", blank=False)
-    motivo = models.TextField('Motivo', max_length=200, blank=False)
     fecha_inicio = models.DateField('Fecha de Inicio', blank=False)
     fecha_final = models.DateField('Fecha de finalización', blank=False)
-    documentacion = models.BooleanField(
-        '¿Entrego documentación?', choices=opciones, default=False, blank=False)"""
-    
 
-#Descuentos
+class Prestaciones(BaseModel):
+    empleado = models.ForeignKey('Empleado', verbose_name='Empleado', on_delete=models.CASCADE)
+    departamento = models.ForeignKey('Departamento', verbose_name='Departamento', on_delete=models.CASCADE, default=None)
+    salario = models.DecimalField(max_digits=8, decimal_places=2, default=None)
+    isss_laboral = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    isss_patronal = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    afp_laboral = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    afp_patronal = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    impuesto_renta = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    class Meta:
+        verbose_name = "Prestación"
+        verbose_name_plural = "Prestaciones"
+
+    def __str__(self):
+        return f'{self.empleado} - {self.departamento}'
+
+    def save(self, *args, **kwargs):
+        if self.empleado:
+            self.departamento = self.empleado.id_departamento
+            self.salario = self.empleado.salario
+
+        self.total_descuento = self.isss_laboral + self.afp_laboral + self.impuesto_renta
+        self.saldo_liquido = self.salario - self.total_descuento
+
+        super().save(*args, **kwargs)
+    
 class Retencion(models.Model):
     frecuencia_pago_choices = [
         ('Mensual', 'Mensual'),
@@ -138,3 +158,24 @@ class TablaRetenciones(models.Model):
     def __str__(self):
         return "Tabla de Retenciones"
     
+class Indemnizacion(BaseModel):
+    empleado = models.ForeignKey('Empleado', verbose_name='Empleado', on_delete=models.CASCADE)
+    departamento = models.ForeignKey('Departamento', verbose_name='Departamento', on_delete=models.CASCADE, default=None)
+    fecha_ingreso = models.DateField('Fecha de Ingreso', blank=False)
+    fecha_retiro = models.DateField('Fecha de retiro', blank=False)
+    salario = models.DecimalField('Salario',max_digits=8, decimal_places=2, default=None)
+    años_completos = models.IntegerField("Años completados",default=None, blank=False)
+    pago = models.DecimalField('Pago por años', max_digits=8,decimal_places=2, blank=False)
+
+    class Meta:
+        verbose_name = "Indemnizacion"
+        verbose_name_plural = "Indemnizaciones"
+
+    def __str__(self):
+        return f'{self.empleado} - {self.departamento}'
+    
+    def save(self, *args, **kwargs):
+        if self.empleado:
+            self.departamento = self.empleado.id_departamento
+            self.salario = self.empleado.salario
+            self.fecha_ingreso = self.empleado.fecha_contratacion
