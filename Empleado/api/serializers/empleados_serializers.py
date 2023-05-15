@@ -9,7 +9,7 @@ class EmpleadosSerializer(serializers.ModelSerializer):
         model = Empleado
         exclude = ('state', 'created_date', 'modified_date', 'deleted_date')
 
-""" def to_representation(self, instance):
+    def to_representation(self, instance):
             return{
                 'id': instance.id,
                 'nombres': instance.nombres,
@@ -31,7 +31,7 @@ class EmpleadosSerializer(serializers.ModelSerializer):
                 "id_departamento":  instance.id_departamento.nombre_departamento
 
             }
-"""
+
 
 """"
 "id": 1,
