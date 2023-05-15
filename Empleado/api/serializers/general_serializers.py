@@ -1,4 +1,4 @@
-from Empleado.models import Departamento, Cargo, Incapacidad, Retencion
+from Empleado.models import Departamento, Cargo, Incapacidad, Retencion, Prestaciones, Ausencia, Indemnizacion
 
 from rest_framework import serializers
 
@@ -35,3 +35,18 @@ class RentaSerializar(serializers.ModelSerializer):
     class Meta:
         model= Retencion
         fields='__all__'
+
+class PrestacionesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prestaciones
+        exclude = ('state', 'created_date', 'modified_date', 'deleted_date')
+
+class AusenciaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ausencia
+        exclude = ('state', 'created_date', 'modified_date', 'deleted_date')
+
+class IndemnizacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Indemnizacion
+        exclude = ('state', 'created_date', 'modified_date', 'deleted_date')
