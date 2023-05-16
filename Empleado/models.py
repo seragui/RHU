@@ -117,6 +117,9 @@ class Prestaciones(BaseModel):
     afp_laboral = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     afp_patronal = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     impuesto_renta = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    total_descuento = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    sueldo_liquido = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
 
     class Meta:
         verbose_name = "Prestación"
@@ -130,8 +133,8 @@ class Prestaciones(BaseModel):
             self.departamento = self.empleado.id_departamento
             self.salario = self.empleado.salario
 
-        self.total_descuento = self.isss_laboral + self.afp_laboral + self.impuesto_renta
-        self.saldo_liquido = self.salario - self.total_descuento
+        #self.total_descuento = self.isss_laboral + self.afp_laboral + self.impuesto_renta
+        #self.saldo_liquido = self.salario - self.total_descuento
 
         super().save(*args, **kwargs)
     
