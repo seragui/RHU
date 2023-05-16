@@ -18,7 +18,6 @@ class EmpleadosSerializer(serializers.ModelSerializer):
                 'direccion': instance.direccion,
                 'telefono': instance.telefono,
                 'sexo': instance.sexo,
-                "flag_discapacidad": instance.flag_discapacidad,
                 "documento_identidad": instance.documento_identidad,
                 "correo": instance.correo,
                 "estado_civil": instance.estado_civil,
