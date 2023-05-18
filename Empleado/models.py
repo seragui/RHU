@@ -159,7 +159,9 @@ class Indemnizacion(BaseModel):
     fecha_retiro = models.DateField('Fecha de retiro', blank=False)
     salario = models.DecimalField('Salario',max_digits=8, decimal_places=2, default=None)
     años_completos = models.IntegerField("Años completados",default=None, blank=False)
+    dias = models.IntegerField("Dias laborados", blank=False)
     pago = models.DecimalField('Pago por años', max_digits=8,decimal_places=2, blank=False)
+
 
     class Meta:
         verbose_name = "Indemnizacion"
