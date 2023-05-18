@@ -111,14 +111,14 @@ class Ausencia(BaseModel):
 class Prestaciones(BaseModel):
     empleado = models.ForeignKey('Empleado', verbose_name='Empleado', on_delete=models.CASCADE)
     departamento = models.CharField('Departamento', max_length=200, blank=False)
-    salario = models.DecimalField(max_digits=8, decimal_places=2, default=None)
-    isss_laboral = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    isss_patronal = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    afp_laboral = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    afp_patronal = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    impuesto_renta = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    total_descuento = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    sueldo_liquido = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    salario = models.CharField(max_length=8, blank=False)
+    isss_laboral = models.CharField(max_length=8, blank=False)
+    isss_patronal = models.CharField(max_length=8, blank=False)
+    afp_laboral = models.CharField(max_length=8, blank=False)
+    afp_patronal = models.CharField(max_length=8, blank=False)
+    impuesto_renta = models.CharField(max_length=8, blank=False)
+    total_descuento = models.CharField(max_length=8, blank=False)
+    sueldo_liquido = models.CharField(max_length=8, blank=False)
 
 
     class Meta:
