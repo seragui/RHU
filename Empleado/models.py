@@ -85,7 +85,7 @@ class Empleado(Persona):
 class Incapacidad(BaseModel):
     id_empleado = models.ForeignKey(
         'Empleado', verbose_name='Empleados', on_delete=models.CASCADE, blank=False)
-    departamento = models.CharField('Departamento',max_length=100, blank=False)
+    departamento = models.CharField('Departamento',max_length=100, blank=False, default=None)
     cantidad_dias = models.IntegerField("Cantidad de Dias", blank=False)
     fecha_inicio = models.DateField('Fecha de Inicio', blank=False)
     fecha_final = models.DateField('Fecha de finalización', blank=False)
@@ -101,7 +101,7 @@ class Incapacidad(BaseModel):
 class Ausencia(BaseModel):
     id_empleado = models.ForeignKey(
         'Empleado', verbose_name='Empleados', on_delete=models.CASCADE, blank=False)
-    departamento = models.CharField('Departamento',max_length=100, blank=False)
+    departamento = models.CharField('Departamento',max_length=100, blank=False, default=None)
     cantidad_dias = models.IntegerField("Cantidad de Dias", blank=False)
     fecha_inicio = models.DateField('Fecha de Inicio', blank=False)
     fecha_final = models.DateField('Fecha de finalización', blank=False)
