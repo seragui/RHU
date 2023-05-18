@@ -110,7 +110,7 @@ class Ausencia(BaseModel):
 
 class Prestaciones(BaseModel):
     empleado = models.ForeignKey('Empleado', verbose_name='Empleado', on_delete=models.CASCADE)
-    departamento = models.CharField('Departamento', max_length=200, blanck=False)
+    departamento = models.CharField('Departamento', max_length=200, blank=False)
     salario = models.DecimalField(max_digits=8, decimal_places=2, default=None)
     isss_laboral = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     isss_patronal = models.DecimalField(max_digits=8, decimal_places=2, default=0)
