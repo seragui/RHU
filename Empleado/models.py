@@ -169,9 +169,3 @@ class Indemnizacion(BaseModel):
 
     def __str__(self):
         return f'{self.empleado} - {self.departamento}'
-    
-    def save(self, *args, **kwargs):
-        if self.empleado:
-            self.departamento = self.empleado.id_departamento
-            self.salario = self.empleado.salario
-            self.fecha_ingreso = self.empleado.fecha_contratacion
