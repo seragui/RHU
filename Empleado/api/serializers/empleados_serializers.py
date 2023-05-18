@@ -32,24 +32,3 @@ class EmpleadosSerializer(serializers.ModelSerializer):
             }
 
 
-""""
-"id": 1,
-        "nombres": "Ronald Antonio",
-        "apellidos": "Sermeño Aguilar",
-        "fecha_nacimiento": "1997-08-21",
-        "direccion": "Ejemplo",
-        "telefono": "50370895605",
-        "sexo": "M",
-        "flag_discapacidad": false,
-        "documento_identidad": "05597691-3",
-        "correo": "rasa0821@hotmail.com",
-        "estado_civil": "soltero",
-        "no_isss": "012345678",
-        "no_afp": "012345678512",
-        "salario": "1500.00",
-        "fecha_contratacion": "2023-05-12",
-        "tipo_pago": "Mensual",
-        "tipo_contrato": "Formal",
-        "cargo": 1,
-        "id_departamento": 1
-"""

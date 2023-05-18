@@ -30,21 +30,40 @@ class IncapacidadSerializar(serializers.ModelSerializer):
             "documentacion": instance.documentacion,
             "id_empleado": f'{instance.id_empleado.nombres} {instance.id_empleado.apellidos}'
         }
-    
+
+
 class RentaSerializar(serializers.ModelSerializer):
     class Meta:
-        model= Retencion
-        fields='__all__'
+        model = Retencion
+        fields = '__all__'
+
 
 class PrestacionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prestaciones
         exclude = ('state', 'created_date', 'modified_date', 'deleted_date')
 
+    def to_representation(self, instance):
+        return {
+            "id": instance.id,
+            "departamento": instance.departamento,
+            "salario": instance.salario,
+            "isss_laboral": instance.isss_laboral,
+            "isss_patronal": instance.isss_patronal,
+            "afp_laboral": instance.afp_laboral,
+            "afp_patronal": instance.afp_patronal,
+            "impuesto_renta": instance.impuesto_renta,
+            "total_descuento": instance.total_descuento,
+            "sueldo_liquido": instance.sueldo_liquido,
+            "empleado": f'{instance.empleado.nombres} {instance.empleado.apellidos}'
+        }
+
+
 class AusenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ausencia
         exclude = ('state', 'created_date', 'modified_date', 'deleted_date')
+
 
 class IndemnizacionSerializer(serializers.ModelSerializer):
     class Meta:
