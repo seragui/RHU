@@ -110,7 +110,7 @@ class Ausencia(BaseModel):
 
 class Prestaciones(BaseModel):
     empleado = models.ForeignKey('Empleado', verbose_name='Empleado', on_delete=models.CASCADE)
-    departamento = models.ForeignKey('Departamento', verbose_name='Departamento', on_delete=models.CASCADE, default=None)
+    departamento = models.CharField('Departamento', max_length=200, blanck=False)
     salario = models.DecimalField(max_digits=8, decimal_places=2, default=None)
     isss_laboral = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     isss_patronal = models.DecimalField(max_digits=8, decimal_places=2, default=0)
@@ -128,15 +128,6 @@ class Prestaciones(BaseModel):
     def __str__(self):
         return f'{self.empleado} - {self.departamento}'
 
-    def save(self, *args, **kwargs):
-        if self.empleado:
-            self.departamento = self.empleado.id_departamento
-            self.salario = self.empleado.salario
-
-        #self.total_descuento = self.isss_laboral + self.afp_laboral + self.impuesto_renta
-        #self.saldo_liquido = self.salario - self.total_descuento
-
-        super().save(*args, **kwargs)
     
 class Retencion(models.Model):
     frecuencia_pago_choices = [
