@@ -154,7 +154,7 @@ class TablaRetenciones(models.Model):
     
 class Indemnizacion(BaseModel):
     empleado = models.ForeignKey('Empleado', verbose_name='Empleado', on_delete=models.CASCADE)
-    departamento = models.ForeignKey('Departamento', verbose_name='Departamento', on_delete=models.CASCADE, default=None)
+    departamento = models.CharField('Departamento', max_length=200, blank=False)
     fecha_ingreso = models.DateField('Fecha de Ingreso', blank=False)
     fecha_retiro = models.DateField('Fecha de retiro', blank=False)
     salario = models.DecimalField('Salario',max_digits=8, decimal_places=2, default=None)
