@@ -79,3 +79,16 @@ class IndemnizacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Indemnizacion
         exclude = ('state', 'created_date', 'modified_date', 'deleted_date')
+
+    def to_representation(self, instance):
+        return {
+            "id": instance.id,
+            "dias": instance.dias,
+            "pago": instance.pago,
+            "años_completos": instance.años_completos,
+            "salario": instance.salario,
+            "fecha_ingreso": instance.fecha_ingreso,
+            "fecha_retiro": instance.fecha_retiro,
+            "departamento": instance.departamento,
+            "empleado": f'{instance.empleado.nombres} {instance.empleado.apellidos}'
+        }
