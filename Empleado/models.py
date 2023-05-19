@@ -87,6 +87,7 @@ class Incapacidad(BaseModel):
         'Empleado', verbose_name='Empleados', on_delete=models.CASCADE, blank=False)
     departamento = models.CharField('Departamento',max_length=100, blank=False, default=None)
     cantidad_dias = models.IntegerField("Cantidad de Dias", blank=False)
+    motivo = models.CharField('Motivo',max_length=100, blank=False, default="n/a", null= True)
     fecha_inicio = models.DateField('Fecha de Inicio', blank=False)
     fecha_final = models.DateField('Fecha de finalización', blank=False)
     

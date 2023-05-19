@@ -27,7 +27,7 @@ class IncapacidadSerializar(serializers.ModelSerializer):
             "motivo": instance.motivo,
             "fecha_inicio": instance.fecha_inicio,
             "fecha_final": instance.fecha_final,
-            "documentacion": instance.documentacion,
+            "departamento": instance.departamento,
             "id_empleado": f'{instance.id_empleado.nombres} {instance.id_empleado.apellidos}'
         }
 
@@ -63,6 +63,16 @@ class AusenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ausencia
         exclude = ('state', 'created_date', 'modified_date', 'deleted_date')
+
+    def to_representation(self, instance):
+        return {
+            "id": instance.id,
+            "cantidad_dias": instance.cantidad_dias,
+            "fecha_inicio": instance.fecha_inicio,
+            "fecha_final": instance.fecha_final,
+            "departamento": instance.departamento,
+            "id_empleado": f'{instance.id_empleado.nombres} {instance.id_empleado.apellidos}'
+        }
 
 
 class IndemnizacionSerializer(serializers.ModelSerializer):
