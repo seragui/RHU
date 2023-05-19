@@ -9,7 +9,7 @@ from base.models import BaseModel
 class Cargo(BaseModel):
 
     nombre_cargo = models.CharField(
-        'Nombre de Cargo', max_length=50, blank=False, unique=True)
+        'Nombre de Cargo', max_length=50, blank=False)
 
     class Meta:
         verbose_name = ("Cargo")
@@ -22,7 +22,7 @@ class Cargo(BaseModel):
 class Departamento(BaseModel):
 
     nombre_departamento = models.CharField(
-        'Nombre de Departamento', max_length=50, blank=False, unique=True)
+        'Nombre de Departamento', max_length=50, blank=False)
 
     class Meta:
         verbose_name = ('Departamento')
